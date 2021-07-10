@@ -13,11 +13,17 @@ import java.util.List;
  */
 public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 
+    private List<String> proxyServers;
+
+    public HttpInboundInitializer(List<String> proxyServers) {
+        this.proxyServers = proxyServers;
+    }
+
     @Override
     public void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline p = ch.pipeline();
         p.addLast(new HttpServerCodec());
         p.addLast(new HttpObjectAggregator(1024 * 1024));
-        p.addLast(new HttpInboundHandler());
+        p.addLast(new HttpInboundHandler(this.proxyServers));
     }
 }

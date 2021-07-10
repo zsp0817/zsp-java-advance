@@ -15,13 +15,17 @@ import java.util.List;
 
 /**
  * Created by zhangshaopeng on 2021/7/9.
+ * <p>
+ * Netty核心代码，设置Bootstrap，设置handler
  */
 public class HttpInboundServer {
 
     private int port;
+    private List<String> proxyServers;
 
-    public HttpInboundServer(int port) {
+    public HttpInboundServer(int port, List<String> proxyServers) {
         this.port = port;
+        this.proxyServers = proxyServers;
     }
 
     public void run() throws InterruptedException {
@@ -29,8 +33,8 @@ public class HttpInboundServer {
         EventLoopGroup workerGroup = new NioEventLoopGroup(16);
 
         try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.option(ChannelOption.SO_BACKLOG, 128)
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.SO_REUSEADDR, true)
@@ -40,11 +44,11 @@ public class HttpInboundServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 
-            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.DEBUG))
-                    .childHandler(new HttpInboundInitializer());
+                    .childHandler(new HttpInboundInitializer(this.proxyServers));
 
-            Channel ch = b.bind(port).sync().channel();
+            Channel ch = bootstrap.bind(port).sync().channel();
             System.out.println("开启netty http服务器，监听地址和端口为：http://localhost:" + port + '/');
             ch.closeFuture().sync();
         } finally {

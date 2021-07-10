@@ -30,7 +30,7 @@ public class HttpServer01 {
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             writer.println("HTTP/1.1 200 OK");
             writer.println("Content-Type:text/html;charset=utf-8");
-            String body = "hello,nio1";
+            String body = "hello, nio1";
             writer.println("Content-Length:" + body.getBytes().length);
             writer.println();
             writer.write(body);
