@@ -33,8 +33,8 @@ public class HttpInboundServer {
         EventLoopGroup workerGroup = new NioEventLoopGroup(16);
 
         try {
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.option(ChannelOption.SO_BACKLOG, 128)
+            ServerBootstrap b = new ServerBootstrap();
+            b.option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.SO_REUSEADDR, true)
@@ -44,11 +44,11 @@ public class HttpInboundServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 
-            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.DEBUG))
                     .childHandler(new HttpInboundInitializer(this.proxyServers));
 
-            Channel ch = bootstrap.bind(port).sync().channel();
+            Channel ch = b.bind(port).sync().channel();
             System.out.println("开启netty http服务器，监听地址和端口为：http://localhost:" + port + '/');
             ch.closeFuture().sync();
         } finally {
