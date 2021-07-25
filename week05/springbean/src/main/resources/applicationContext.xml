@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                        http://www.springframework.org/schema/aop
+                        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--方法一：使用XML配置的方式-->
+    <!--<bean id="item1" class="com.zsp.springbean.OrderItem">-->
+        <!--<property name="sku" value="A002HS1S" />-->
+        <!--<property name="amount" value="100.00" />-->
+        <!--<property name="num" value="1" />-->
+    <!--</bean>-->
+
+    <!--<bean id="item2" class="com.zsp.springbean.OrderItem">-->
+        <!--<property name="sku" value="A002BS1S" />-->
+        <!--<property name="amount" value="80.00" />-->
+        <!--<property name="num" value="2" />-->
+    <!--</bean>-->
+    <!---->
+    <!--<bean id="order" class="com.zsp.springbean.Order">-->
+        <!--<property name="id" value="SO202107252119320001" />-->
+        <!--<property name="amount" value="260.00" />-->
+        <!--<property name="itemList">-->
+            <!--<list>-->
+                <!--<ref bean="item1" />-->
+                <!--<ref bean="item2" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--方法二：使用Annotation配置的方式-->
+    <context:component-scan base-package="com.zsp.springbean" />
+</beans>
