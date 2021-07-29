@@ -1,4 +1,4 @@
-package com.zsp.schoolstarter.bean;
+package com.zsp.httpstarter.bean;
 
 public interface ISchool {
 

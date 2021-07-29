@@ -4,17 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-    <bean id="student1" class="com.zsp.schoolstarter.bean.Student">
+    <bean id="student1" class="com.zsp.httpstarter.bean.Student">
         <property name="id" value="1"/>
         <property name="name" value="张三"/>
     </bean>
 
-    <bean id="student2" class="com.zsp.schoolstarter.bean.Student">
+    <bean id="student2" class="com.zsp.httpstarter.bean.Student">
         <property name="id" value="2"/>
         <property name="name" value="李四"/>
     </bean>
 
-    <bean id="class" class="com.zsp.schoolstarter.bean.Klass">
+    <bean id="class" class="com.zsp.httpstarter.bean.Klass">
         <property name="students">
             <list>
                 <ref bean="student1"/>
@@ -23,7 +23,7 @@
         </property>
     </bean>
 
-    <bean id="school" class="com.zsp.schoolstarter.bean.School">
+    <bean id="school" class="com.zsp.httpstarter.bean.School">
         <property name="klass" ref="class"/>
         <property name="student" ref="student1"/>
     </bean>
