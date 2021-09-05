@@ -4,6 +4,9 @@ import io.kimmking.rpcfx.api.RpcfxResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * 服务端的解析器
+ */
 public class DemoResolver implements RpcfxResolver, ApplicationContextAware {
 
     private ApplicationContext applicationContext;

@@ -47,33 +47,33 @@ public class RpcfxServerApplication {
 
 
 		// 进一步的优化，是在spring加载完成后，从里面拿到特定注解的bean，自动注册到zk
-
 		SpringApplication.run(RpcfxServerApplication.class, args);
 	}
 
-	private static void registerService(CuratorFramework client, String service) throws Exception {
-		ServiceProviderDesc userServiceSesc = ServiceProviderDesc.builder()
-				.host(InetAddress.getLocalHost().getHostAddress())
-				.port(8080).serviceClass(service).build();
-		// String userServiceSescJson = JSON.toJSONString(userServiceSesc);
-
-		try {
-			if ( null == client.checkExists().forPath("/" + service)) {
-				client.create().withMode(CreateMode.PERSISTENT).forPath("/" + service, "service".getBytes());
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		client.create().withMode(CreateMode.EPHEMERAL).
-				forPath( "/" + service + "/" + userServiceSesc.getHost() + "_" + userServiceSesc.getPort(), "provider".getBytes());
-	}
+//	private static void registerService(CuratorFramework client, String service) throws Exception {
+//		ServiceProviderDesc userServiceSesc = ServiceProviderDesc.builder()
+//				.host(InetAddress.getLocalHost().getHostAddress())
+//				.port(8080).serviceClass(service).build();
+//		// String userServiceSescJson = JSON.toJSONString(userServiceSesc);
+//
+//		try {
+//			if ( null == client.checkExists().forPath("/" + service)) {
+//				client.create().withMode(CreateMode.PERSISTENT).forPath("/" + service, "service".getBytes());
+//			}
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
+//
+//		client.create().withMode(CreateMode.EPHEMERAL).
+//				forPath( "/" + service + "/" + userServiceSesc.getHost() + "_" + userServiceSesc.getPort(), "provider".getBytes());
+//	}
 
 	@Autowired
 	RpcfxInvoker invoker;
 
 	@PostMapping("/")
 	public RpcfxResponse invoke(@RequestBody RpcfxRequest request) {
+		System.out.println("Hello!");
 		return invoker.invoke(request);
 	}
 
@@ -87,12 +87,7 @@ public class RpcfxServerApplication {
 		return new DemoResolver();
 	}
 
-	// 能否去掉name
-	//
-
 	// annotation
-
-
 	@Bean(name = "io.kimmking.rpcfx.demo.api.UserService")
 	public UserService createUserService(){
 		return new UserServiceImpl();
